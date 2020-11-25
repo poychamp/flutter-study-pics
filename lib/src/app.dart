@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' show get;
 
 class App extends StatefulWidget {
   createState() {
@@ -8,6 +9,14 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   int counter = 0;
+
+  void onFloatingActionButtonPressed() async {
+    counter++;
+
+    final response = await get('https://jsonplaceholder.typicode.com/photos/$counter');
+
+    print(response.body);
+  }
 
   Widget build(context) {
     return MaterialApp(
@@ -20,11 +29,7 @@ class AppState extends State<App> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () {
-            setState(() {
-              counter++;
-            });
-          },
+          onPressed: onFloatingActionButtonPressed,
         ),
       ),
     );
